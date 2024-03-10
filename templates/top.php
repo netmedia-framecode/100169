@@ -1,7 +1,7 @@
 <?php require_once("controller/script.php"); ?>
 
 <!DOCTYPE html>
-<html>
+<html style="scroll-behavior: smooth;">
 
 <head>
   <?php require_once("sections/head.php"); ?>
