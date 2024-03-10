@@ -12,7 +12,7 @@ CREATE TABLE barang_kib(
   id_barang_kategori INT,
   nama_barang_kib VARCHAR(50),
   kondisi_barang VARCHAR(50),
-  thn_anggaran DATE,
+  thn_anggaran CHAR(4),
   sumber_dana VARCHAR(50),
   harga CHAR(20),
   stok_barang INT,

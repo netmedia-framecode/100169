@@ -59,6 +59,20 @@ function compressImage($source, $destination, $quality)
   return $destination;
 }
 
+function kontak($conn, $data, $action, $pesan)
+{
+  if ($action == "insert") {
+    $sql = "INSERT INTO kontak(username,email,phone,pesan) VALUES('$data[username]','$data[email]','$data[phone]','$pesan')";
+  }
+
+  if ($action == "delete") {
+    $sql = "DELETE FROM kontak WHERE id_kontak='$data[id_kontak]'";
+  }
+
+  mysqli_query($conn, $sql);
+  return mysqli_affected_rows($conn);
+}
+
 if (!isset($_SESSION["project_si_inventaris_sekolah"]["users"])) {
   function register($conn, $data, $action)
   {
@@ -919,6 +933,144 @@ if (isset($_SESSION["project_si_inventaris_sekolah"]["users"])) {
     return mysqli_affected_rows($conn);
   }
 
+  function barang_kategori($conn, $data, $action)
+  {
+    if ($action == "insert") {
+      $sql = "INSERT INTO barang_kategori(nama_kategori) VALUES('$data[nama_kategori]')";
+    }
+
+    if ($action == "update") {
+      $sql = "UPDATE barang_kategori SET nama_kategori='$data[nama_kategori]' WHERE id_barang_kategori='$data[id_barang_kategori]'";
+    }
+
+    if ($action == "delete") {
+      $sql = "DELETE FROM barang_kategori WHERE id_barang_kategori='$data[id_barang_kategori]'";
+    }
+
+    mysqli_query($conn, $sql);
+    return mysqli_affected_rows($conn);
+  }
+
+  function barang_kib($conn, $data, $action, $id_user)
+  {
+    if ($action == "insert") {
+      $sql = "INSERT INTO barang_kib(id_user,id_barang_kategori,nama_barang_kib,kondisi_barang,thn_anggaran,sumber_dana,harga,stok_barang,ruangan) VALUES('$id_user','$data[id_barang_kategori]','$data[nama_barang_kib]','$data[kondisi_barang]','$data[thn_anggaran]','$data[sumber_dana]','$data[harga]','$data[stok_barang]','$data[ruangan]')";
+    }
+
+    if ($action == "update") {
+      $sql = "UPDATE barang_kib SET id_barang_kategori='$data[id_barang_kategori]', nama_barang_kib='$data[nama_barang_kib]', kondisi_barang='$data[kondisi_barang]', thn_anggaran='$data[thn_anggaran]', sumber_dana='$data[sumber_dana]', harga='$data[harga]', stok_barang='$data[stok_barang]', ruangan='$data[ruangan]' WHERE id_barang_kib='$data[id_barang_kib]'";
+    }
+
+    if ($action == "delete") {
+      $sql = "DELETE FROM barang_kib WHERE id_barang_kib='$data[id_barang_kib]'";
+    }
+
+    mysqli_query($conn, $sql);
+    return mysqli_affected_rows($conn);
+  }
+
+  function barang_masuk($conn, $data, $action, $keterangan)
+  {
+    if ($action == "insert") {
+      $check_id_kib = "SELECT * FROM barang_kib WHERE id_barang_kib='$data[id_barang_kib]'";
+      $take_barang_kib = mysqli_query($conn, $check_id_kib);
+      $data_kib = mysqli_fetch_assoc($take_barang_kib);
+      $nama_barang_kib = $data_kib['nama_barang_kib'];
+      $harga = $data_kib['harga'];
+      $stok_barang = $data_kib['stok_barang'] + $data['jumlah'];
+      $sql = "INSERT INTO barang_masuk(id_barang_kib,nama_barang_masuk,keterangan,jumlah,harga) VALUES('$data[id_barang_kib]','$nama_barang_kib','$keterangan','$data[jumlah]','$harga');";
+      $sql .= "UPDATE barang_kib SET stok_barang='$stok_barang' WHERE id_barang_kib='$data[id_barang_kib]';";
+    }
+
+    if ($action == "update") {
+      $sql = "UPDATE barang_masuk SET id_barang_kib='$data[id_barang_kib]', nama_barang_masuk='$data[nama_barang_masuk]', keterangan='$keterangan', jumlah='$data[jumlah]', harga='$data[harga]' WHERE id_barang_masuk='$data[id_barang_masuk]';";
+      if ($data['jumlah'] != $data['jumlahOld']) {
+        $check_id_kib = "SELECT * FROM barang_kib WHERE id_barang_kib='$data[id_barang_kib]'";
+        $take_barang_kib = mysqli_query($conn, $check_id_kib);
+        $data_kib = mysqli_fetch_assoc($take_barang_kib);
+        if ($data['jumlahOld'] < $data['jumlah']) {
+          $stok_barang = ($data_kib['stok_barang'] + $data['jumlah']) - $data['jumlahOld'];
+        } else if ($data['jumlahOld'] > $data['jumlah']) {
+          $stok_barang = $data_kib['stok_barang'] - ($data['jumlahOld'] - $data['jumlah']);
+        }
+        $sql .= "UPDATE barang_kib SET stok_barang='$stok_barang' WHERE id_barang_kib='$data[id_barang_kib]';";
+      }
+    }
+
+    if ($action == "delete") {
+      $check_id_kib = "SELECT * FROM barang_kib WHERE id_barang_kib='$data[id_barang_kib]'";
+      $take_barang_kib = mysqli_query($conn, $check_id_kib);
+      $data_kib = mysqli_fetch_assoc($take_barang_kib);
+      $nama_barang_kib = $data_kib['nama_barang_kib'];
+      $harga = $data_kib['harga'];
+      $stok_barang = $data_kib['stok_barang'] - $data['jumlah'];
+      $sql = "DELETE FROM barang_masuk WHERE id_barang_masuk='$data[id_barang_masuk]';";
+      $sql .= "UPDATE barang_kib SET stok_barang='$stok_barang' WHERE id_barang_kib='$data[id_barang_kib]';";
+    }
+
+    mysqli_multi_query($conn, $sql);
+    return mysqli_affected_rows($conn);
+  }
+
+  function barang_keluar($conn, $data, $action, $keterangan)
+  {
+    if ($action == "insert") {
+      $check_id_kib = "SELECT * FROM barang_kib WHERE id_barang_kib='$data[id_barang_kib]'";
+      $take_barang_kib = mysqli_query($conn, $check_id_kib);
+      $data_kib = mysqli_fetch_assoc($take_barang_kib);
+      $nama_barang_kib = $data_kib['nama_barang_kib'];
+      $check_stok = $data_kib['stok_barang'] - $data['jumlah'];
+      if ($check_stok < 0) {
+        $message = "Maaf, stok barang KIB sudah habis.";
+        $message_type = "danger";
+        alert($message, $message_type);
+        return false;
+      } else {
+        $stok_barang = $check_stok;
+      }
+      $sql = "INSERT INTO barang_keluar(id_barang_kib,nama_barang_keluar,penerima,jumlah,keterangan) VALUES('$data[id_barang_kib]','$nama_barang_kib','$data[penerima]','$data[jumlah]','$keterangan');";
+      $sql .= "UPDATE barang_kib SET stok_barang='$stok_barang' WHERE id_barang_kib='$data[id_barang_kib]';";
+    }
+
+    if ($action == "update") {
+      $sql = "UPDATE barang_keluar SET id_barang_kib='$data[id_barang_kib]', nama_barang_keluar='$data[nama_barang_keluar]', penerima='$data[penerima]', jumlah='$data[jumlah]', keterangan='$keterangan' WHERE id_barang_keluar='$data[id_barang_keluar]';";
+      if ($data['jumlah'] != $data['jumlahOld']) {
+        $check_id_kib = "SELECT * FROM barang_kib WHERE id_barang_kib='$data[id_barang_kib]'";
+        $take_barang_kib = mysqli_query($conn, $check_id_kib);
+        $data_kib = mysqli_fetch_assoc($take_barang_kib);
+        if ($data['jumlahOld'] < $data['jumlah']) {
+          $stok_barang = $data_kib['stok_barang'] - ($data['jumlah'] - $data['jumlahOld']);
+        } else if ($data['jumlahOld'] > $data['jumlah']) {
+          $stok_barang = $data_kib['stok_barang'] + ($data['jumlahOld'] - $data['jumlah']);
+        }
+        $sql .= "UPDATE barang_kib SET stok_barang='$stok_barang' WHERE id_barang_kib='$data[id_barang_kib]';";
+      }
+    }
+
+    if ($action == "delete") {
+      $check_id_kib = "SELECT * FROM barang_kib WHERE id_barang_kib='$data[id_barang_kib]'";
+      $take_barang_kib = mysqli_query($conn, $check_id_kib);
+      $data_kib = mysqli_fetch_assoc($take_barang_kib);
+      $nama_barang_kib = $data_kib['nama_barang_kib'];
+      $stok_barang = $data_kib['stok_barang'] + $data['jumlah'];
+      $sql = "DELETE FROM barang_keluar WHERE id_barang_keluar='$data[id_barang_keluar]';";
+      $sql .= "UPDATE barang_kib SET stok_barang='$stok_barang' WHERE id_barang_kib='$data[id_barang_kib]';";
+    }
+
+    mysqli_multi_query($conn, $sql);
+    return mysqli_affected_rows($conn);
+  }
+
+  function tentang($conn, $data, $action)
+  {
+    if ($action == "update") {
+      $sql = "UPDATE tentang SET deskripsi='$data[deskripsi]'";
+    }
+
+    mysqli_query($conn, $sql);
+    return mysqli_affected_rows($conn);
+  }
+
   function __name($conn, $data, $action)
   {
     if ($action == "insert") {
@@ -934,4 +1086,3 @@ if (isset($_SESSION["project_si_inventaris_sekolah"]["users"])) {
     return mysqli_affected_rows($conn);
   }
 }
-

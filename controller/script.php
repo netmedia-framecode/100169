@@ -3,7 +3,7 @@
 }
 error_reporting(~E_NOTICE & ~E_DEPRECATED);
 require_once("db_connect.php");
-require_once("../models/sql.php");
+require_once(__DIR__ . "/../models/sql.php");
 require_once("functions.php");
 
 $messageTypes = ["success", "info", "warning", "danger", "dark"];
@@ -13,6 +13,23 @@ $name_website = "SI Inventaris Sekolah";
 
 $select_auth = "SELECT * FROM auth";
 $views_auth = mysqli_query($conn, $select_auth);
+
+$tentang = "SELECT * FROM tentang";
+$views_tentang = mysqli_query($conn, $tentang);
+$kontak = "SELECT * FROM kontak ORDER BY id_kontak DESC";
+$views_kontak = mysqli_query($conn, $kontak);
+if (isset($_POST["add_kontak"])) {
+  $validated_post = array_map(function ($value) use ($conn) {
+    return valid($conn, $value);
+  }, $_POST);
+  if (kontak($conn, $validated_post, $action = 'insert', $_POST['pesan']) > 0) {
+    $message = "Pesan anda berhasil dikirim.";
+    $message_type = "success";
+    alert($message, $message_type);
+    header("Location: kontak");
+    exit();
+  }
+}
 
 if (!isset($_SESSION["project_si_inventaris_sekolah"]["users"])) {
   if (isset($_SESSION["project_si_inventaris_sekolah"]["time_message"]) && (time() - $_SESSION["project_si_inventaris_sekolah"]["time_message"]) > 2) {
@@ -374,6 +391,185 @@ if (isset($_SESSION["project_si_inventaris_sekolah"]["users"])) {
       $message_type = "success";
       alert($message, $message_type);
       header("Location: sub-menu-access");
+      exit();
+    }
+  }
+
+  $barang_kategori = "SELECT * FROM barang_kategori";
+  $views_barang_kategori = mysqli_query($conn, $barang_kategori);
+  if (isset($_POST["add_barang_kategori"])) {
+    $validated_post = array_map(function ($value) use ($conn) {
+      return valid($conn, $value);
+    }, $_POST);
+    if (barang_kategori($conn, $validated_post, $action = 'insert') > 0) {
+      $message = "Kategori barang KIB berhasil ditambahkan.";
+      $message_type = "success";
+      alert($message, $message_type);
+      header("Location: kategori-kib");
+      exit();
+    }
+  }
+  if (isset($_POST["edit_barang_kategori"])) {
+    $validated_post = array_map(function ($value) use ($conn) {
+      return valid($conn, $value);
+    }, $_POST);
+    if (barang_kategori($conn, $validated_post, $action = 'update') > 0) {
+      $message = "Kategori barang KIB berhasil diubah.";
+      $message_type = "success";
+      alert($message, $message_type);
+      header("Location: kategori-kib");
+      exit();
+    }
+  }
+  if (isset($_POST["delete_barang_kategori"])) {
+    $validated_post = array_map(function ($value) use ($conn) {
+      return valid($conn, $value);
+    }, $_POST);
+    if (barang_kategori($conn, $validated_post, $action = 'delete') > 0) {
+      $message = "Kategori barang KIB berhasil dihapus.";
+      $message_type = "success";
+      alert($message, $message_type);
+      header("Location: kategori-kib");
+      exit();
+    }
+  }
+
+  $barang_kib = "SELECT barang_kib.*, users.name, barang_kategori.nama_kategori FROM barang_kib JOIN users ON barang_kib.id_user=users.id_user JOIN barang_kategori ON barang_kib.id_barang_kategori=barang_kategori.id_barang_kategori";
+  $views_barang_kib = mysqli_query($conn, $barang_kib);
+  if (isset($_POST["add_barang_kib"])) {
+    $validated_post = array_map(function ($value) use ($conn) {
+      return valid($conn, $value);
+    }, $_POST);
+    if (barang_kib($conn, $validated_post, $action = 'insert', $id_user) > 0) {
+      $message = "Barang KIB berhasil ditambahkan.";
+      $message_type = "success";
+      alert($message, $message_type);
+      header("Location: barang-kib");
+      exit();
+    }
+  }
+  if (isset($_POST["edit_barang_kib"])) {
+    $validated_post = array_map(function ($value) use ($conn) {
+      return valid($conn, $value);
+    }, $_POST);
+    if (barang_kib($conn, $validated_post, $action = 'update', $id_user) > 0) {
+      $message = "Barang KIB berhasil diubah.";
+      $message_type = "success";
+      alert($message, $message_type);
+      header("Location: barang-kib");
+      exit();
+    }
+  }
+  if (isset($_POST["delete_barang_kib"])) {
+    $validated_post = array_map(function ($value) use ($conn) {
+      return valid($conn, $value);
+    }, $_POST);
+    if (barang_kib($conn, $validated_post, $action = 'delete', $id_user) > 0) {
+      $message = "Barang KIB berhasil dihapus.";
+      $message_type = "success";
+      alert($message, $message_type);
+      header("Location: barang-kib");
+      exit();
+    }
+  }
+
+  $barang_masuk = "SELECT barang_masuk.*, barang_kib.kondisi_barang, barang_kib.thn_anggaran, barang_kib.sumber_dana, barang_kategori.nama_kategori FROM barang_masuk JOIN barang_kib ON barang_masuk.id_barang_kib=barang_kib.id_barang_kib JOIN barang_kategori ON barang_kib.id_barang_kategori=barang_kategori.id_barang_kategori";
+  $views_barang_masuk = mysqli_query($conn, $barang_masuk);
+  if (isset($_POST["add_barang_masuk"])) {
+    $validated_post = array_map(function ($value) use ($conn) {
+      return valid($conn, $value);
+    }, $_POST);
+    if (barang_masuk($conn, $validated_post, $action = 'insert', $_POST['keterangan']) > 0) {
+      $message = "Barang masuk berhasil ditambahkan.";
+      $message_type = "success";
+      alert($message, $message_type);
+      header("Location: barang-masuk");
+      exit();
+    }
+  }
+  if (isset($_POST["edit_barang_masuk"])) {
+    $validated_post = array_map(function ($value) use ($conn) {
+      return valid($conn, $value);
+    }, $_POST);
+    if (barang_masuk($conn, $validated_post, $action = 'update', $_POST['keterangan']) > 0) {
+      $message = "Barang masuk berhasil diubah.";
+      $message_type = "success";
+      alert($message, $message_type);
+      header("Location: barang-masuk");
+      exit();
+    }
+  }
+  if (isset($_POST["delete_barang_masuk"])) {
+    $validated_post = array_map(function ($value) use ($conn) {
+      return valid($conn, $value);
+    }, $_POST);
+    if (barang_masuk($conn, $validated_post, $action = 'delete', $_POST['keterangan']) > 0) {
+      $message = "Barang masuk berhasil dihapus.";
+      $message_type = "success";
+      alert($message, $message_type);
+      header("Location: barang-masuk");
+      exit();
+    }
+  }
+
+  $barang_keluar = "SELECT barang_keluar.*, barang_kib.kondisi_barang, barang_kib.thn_anggaran, barang_kib.sumber_dana, barang_kategori.nama_kategori FROM barang_keluar JOIN barang_kib ON barang_keluar.id_barang_kib=barang_kib.id_barang_kib JOIN barang_kategori ON barang_kib.id_barang_kategori=barang_kategori.id_barang_kategori";
+  $views_barang_keluar = mysqli_query($conn, $barang_keluar);
+  if (isset($_POST["add_barang_keluar"])) {
+    $validated_post = array_map(function ($value) use ($conn) {
+      return valid($conn, $value);
+    }, $_POST);
+    if (barang_keluar($conn, $validated_post, $action = 'insert', $_POST['keterangan']) > 0) {
+      $message = "Barang keluar berhasil ditambahkan.";
+      $message_type = "success";
+      alert($message, $message_type);
+      header("Location: barang-keluar");
+      exit();
+    }
+  }
+  if (isset($_POST["edit_barang_keluar"])) {
+    $validated_post = array_map(function ($value) use ($conn) {
+      return valid($conn, $value);
+    }, $_POST);
+    if (barang_keluar($conn, $validated_post, $action = 'update', $_POST['keterangan']) > 0) {
+      $message = "Barang keluar berhasil diubah.";
+      $message_type = "success";
+      alert($message, $message_type);
+      header("Location: barang-keluar");
+      exit();
+    }
+  }
+  if (isset($_POST["delete_barang_keluar"])) {
+    $validated_post = array_map(function ($value) use ($conn) {
+      return valid($conn, $value);
+    }, $_POST);
+    if (barang_keluar($conn, $validated_post, $action = 'delete', $_POST['keterangan']) > 0) {
+      $message = "Barang keluar berhasil dihapus.";
+      $message_type = "success";
+      alert($message, $message_type);
+      header("Location: barang-keluar");
+      exit();
+    }
+  }
+
+  if (isset($_POST["edit_tentang"])) {
+    if (tentang($conn, $_POST, $action = 'update') > 0) {
+      $message = "Deskripsi tentang berhasil diubah.";
+      $message_type = "success";
+      alert($message, $message_type);
+      header("Location: tentang");
+      exit();
+    }
+  }
+
+  if (isset($_POST["delete_kontak"])) {
+    $validated_post = array_map(function ($value) use ($conn) {
+      return valid($conn, $value);
+    }, $_POST);
+    if (kontak($conn, $validated_post, $action = 'delete', $_POST['pesan']) > 0) {
+      $message = "Pesan berhasil dihapus.";
+      $message_type = "success";
+      alert($message, $message_type);
+      header("Location: kontak");
       exit();
     }
   }
