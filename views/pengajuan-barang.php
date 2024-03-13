@@ -1,5 +1,5 @@
 <?php require_once("../controller/script.php");
-$_SESSION["project_si_inventaris_sekolah"]["name_page"] = "Barang Keluar";
+$_SESSION["project_si_inventaris_sekolah"]["name_page"] = "Pengajuan Barang";
 require_once("../templates/views_top.php"); ?>
 
 <!-- Begin Page Content -->
@@ -8,6 +8,7 @@ require_once("../templates/views_top.php"); ?>
   <!-- Page Heading -->
   <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800"><?= $_SESSION["project_si_inventaris_sekolah"]["name_page"] ?></h1>
+    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#tambah"><i class="bi bi-plus-lg"></i> Tambah</a>
   </div>
 
   <div class="card shadow mb-4 border-0">
@@ -65,40 +66,42 @@ require_once("../templates/views_top.php"); ?>
                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#status<?= $data['id_barang_keluar'] ?>">
                       <?= $data['status_bk'] ?>
                     </button>
-                  <?php } ?>
-                  <div class="modal fade" id="status<?= $data['id_barang_keluar'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header border-bottom-0 shadow">
-                          <h5 class="modal-title" id="exampleModalLabel">Status <?= $data['nama_barang_keluar'] ?></h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <form action="" method="post">
-                          <input type="hidden" name="id_barang_keluar" value="<?= $data['id_barang_keluar'] ?>">
-                          <div class="modal-body">
-                            <p>Ubah status barang keluar yang diajukan oleh pengguna:</p>
-                            <div class="form-group">
-                              <label for="id_status_bk">Status Barang Keluar <small class="text-warning">*</small></label>
-                              <select name="id_status_bk" class="form-control" id="id_status_bk" required>
-                                <option value="" selected>Pilih Barang</option>
-                                <?php $id_status_bk = $data['id_status_bk'];
-                                foreach ($views_status_bk as $data_bk) {
-                                  $selected = ($data_bk['id_status_bk'] == $id_status_bk) ? 'selected' : ''; ?>
-                                  <option value="<?= $data_bk['id_status_bk'] ?>" <?= $selected ?>><?= $data_bk['status_bk'] ?></option>
-                                <?php } ?>
-                              </select>
+                  <?php }
+                  if ($id_role <= 2) { ?>
+                    <div class="modal fade" id="status<?= $data['id_barang_keluar'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Status <?= $data['nama_barang_keluar'] ?></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <form action="" method="post">
+                            <input type="hidden" name="id_barang_keluar" value="<?= $data['id_barang_keluar'] ?>">
+                            <div class="modal-body">
+                              <p>Ubah status barang keluar yang diajukan oleh pengguna:</p>
+                              <div class="form-group">
+                                <label for="id_status_bk">Status Barang Keluar <small class="text-warning">*</small></label>
+                                <select name="id_status_bk" class="form-control" id="id_status_bk" required>
+                                  <option value="" selected>Pilih Barang</option>
+                                  <?php $id_status_bk = $data['id_status_bk'];
+                                  foreach ($views_status_bk as $data_bk) {
+                                    $selected = ($data_bk['id_status_bk'] == $id_status_bk) ? 'selected' : ''; ?>
+                                    <option value="<?= $data_bk['id_status_bk'] ?>" <?= $selected ?>><?= $data_bk['status_bk'] ?></option>
+                                  <?php } ?>
+                                </select>
+                              </div>
                             </div>
-                          </div>
-                          <div class="modal-footer justify-content-center border-top-0">
-                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
-                            <button type="submit" name="ubah_status_barang_keluar" class="btn btn-primary btn-sm">Ubah</button>
-                          </div>
-                        </form>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              <button type="submit" name="ubah_status" class="btn btn-primary">Ubah</button>
+                            </div>
+                          </form>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  <?php } ?>
                 </td>
                 <td class="text-center">
                   <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah<?= $data['id_barang_keluar'] ?>">
@@ -135,7 +138,7 @@ require_once("../templates/views_top.php"); ?>
                             </div>
                             <div class="form-group">
                               <label for="penerima">Penerima <small class="text-warning">*</small></label>
-                              <input type="text" name="penerima" value="<?= $data['penerima'] ?>" class="form-control" id="penerima" required>
+                              <input type="text" value="<?= $data['penerima'] ?>" class="form-control" id="penerima" readonly required>
                             </div>
                             <div class="form-group">
                               <label for="jumlah">Jumlah <small class="text-warning">*</small></label>
@@ -189,6 +192,48 @@ require_once("../templates/views_top.php"); ?>
             <?php } ?>
           </tbody>
         </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="tambah" tabindex="-1" aria-labelledby="tambahLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header border-bottom-0 shadow">
+          <h5 class="modal-title" id="tambahLabel">Tambah Pengajuan Barang</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="" method="post">
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="id_barang_kib">Barang KIB <small class="text-warning">*</small></label>
+              <select name="id_barang_kib" class="form-control" id="id_barang_kib" required>
+                <option value="" selected>Pilih Barang</option>
+                <?php foreach ($views_barang_kib as $data_bk) { ?>
+                  <option value="<?= $data_bk['id_barang_kib'] ?>"><?= $data_bk['nama_kategori'] . " - " . $data_bk['nama_barang_kib'] ?></option>
+                <?php } ?>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="penerima">Penerima <small class="text-warning">*</small></label>
+              <input type="text" name="penerima" value="<?= $name ?>" class="form-control" id="penerima" readonly required>
+            </div>
+            <div class="form-group">
+              <label for="jumlah">Jumlah <small class="text-warning">*</small></label>
+              <input type="number" name="jumlah" class="form-control" id="jumlah" required>
+            </div>
+            <div class="form-group">
+              <label for="keterangan">Keterangan</label>
+              <textarea name="keterangan" class="form-control" id="deskripsi" rows="3"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer justify-content-center border-top-0">
+            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
+            <button type="submit" name="add_barang_keluar" class="btn btn-primary btn-sm">Tambah</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

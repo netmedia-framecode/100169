@@ -35,16 +35,30 @@ CREATE TABLE barang_masuk(
   FOREIGN KEY (id_barang_kib) REFERENCES barang_kib(id_barang_kib) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+CREATE TABLE status_barang_keluar(
+  id_status_bk INT AUTO_INCREMENT PRIMARY KEY,
+  status_bk VARCHAR(50)
+);
+
+INSERT INTO
+  status_barang_keluar(status_bk)
+VALUES
+  ('Diajukan'),
+  ('Diterima'),
+  ('Ditolak');
+
 CREATE TABLE barang_keluar(
   id_barang_keluar INT AUTO_INCREMENT PRIMARY KEY,
   id_barang_kib INT,
+  id_status_bk INT,
   nama_barang_keluar VARCHAR(50),
   penerima VARCHAR(50),
   jumlah CHAR(20),
   keterangan TEXT,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (id_barang_kib) REFERENCES barang_kib(id_barang_kib) ON UPDATE CASCADE ON DELETE CASCADE
+  FOREIGN KEY (id_barang_kib) REFERENCES barang_kib(id_barang_kib) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (id_status_bk) REFERENCES status_barang_keluar(id_status_bk) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE kontak (

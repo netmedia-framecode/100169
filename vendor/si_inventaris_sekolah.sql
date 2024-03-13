@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 10 Mar 2024 pada 21.12
+-- Waktu pembuatan: 13 Mar 2024 pada 20.37
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -73,6 +73,7 @@ INSERT INTO `barang_kategori` (`id_barang_kategori`, `nama_kategori`, `created_a
 CREATE TABLE `barang_keluar` (
   `id_barang_keluar` int(11) NOT NULL,
   `id_barang_kib` int(11) DEFAULT NULL,
+  `id_status_bk` int(11) NOT NULL DEFAULT 1,
   `nama_barang_keluar` varchar(50) DEFAULT NULL,
   `penerima` varchar(50) DEFAULT NULL,
   `jumlah` char(20) DEFAULT NULL,
@@ -85,8 +86,9 @@ CREATE TABLE `barang_keluar` (
 -- Dumping data untuk tabel `barang_keluar`
 --
 
-INSERT INTO `barang_keluar` (`id_barang_keluar`, `id_barang_kib`, `nama_barang_keluar`, `penerima`, `jumlah`, `keterangan`, `created_at`, `updated_at`) VALUES
-(6, 4, 'Tanah Liat', 'arlan', '10', '', '2024-02-15 21:04:53', '2024-03-10 21:06:14');
+INSERT INTO `barang_keluar` (`id_barang_keluar`, `id_barang_kib`, `id_status_bk`, `nama_barang_keluar`, `penerima`, `jumlah`, `keterangan`, `created_at`, `updated_at`) VALUES
+(6, 4, 2, 'Tanah Liat', 'arlan', '10', '', '2024-02-15 21:04:53', '2024-03-14 03:13:01'),
+(7, 4, 3, 'Tanah Liat', 'Netmedia Framecode', '1', '', '2024-03-14 03:06:18', '2024-03-14 03:13:19');
 
 -- --------------------------------------------------------
 
@@ -114,7 +116,7 @@ CREATE TABLE `barang_kib` (
 --
 
 INSERT INTO `barang_kib` (`id_barang_kib`, `id_user`, `id_barang_kategori`, `nama_barang_kib`, `kondisi_barang`, `thn_anggaran`, `sumber_dana`, `harga`, `stok_barang`, `ruangan`, `created_at`, `updated_at`) VALUES
-(4, 1, 2, 'Tanah Liat', 'Fresh', '2024', 'APBD', '150000', 45, '1', '2024-03-10 21:04:29', '2024-03-10 21:05:12');
+(4, 1, 2, 'Tanah Liat', 'Fresh', '2024', 'APBD', '150000', 44, '1', '2024-03-10 21:04:29', '2024-03-14 03:06:18');
 
 -- --------------------------------------------------------
 
@@ -138,7 +140,7 @@ CREATE TABLE `barang_masuk` (
 --
 
 INSERT INTO `barang_masuk` (`id_barang_masuk`, `id_barang_kib`, `nama_barang_masuk`, `keterangan`, `jumlah`, `harga`, `created_at`, `updated_at`) VALUES
-(9, 4, 'Tanah Liat', '', '5', '150000', '2024-01-10 21:05:11', '2024-03-10 21:06:04');
+(9, 4, 'Tanah Liat', '', '5', '150000', '2024-01-10 21:05:11', '2024-03-13 19:31:23');
 
 -- --------------------------------------------------------
 
@@ -155,6 +157,26 @@ CREATE TABLE `kontak` (
   `created_at` datetime DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `status_barang_keluar`
+--
+
+CREATE TABLE `status_barang_keluar` (
+  `id_status_bk` int(11) NOT NULL,
+  `status_bk` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `status_barang_keluar`
+--
+
+INSERT INTO `status_barang_keluar` (`id_status_bk`, `status_bk`) VALUES
+(1, 'Diajukan'),
+(2, 'Diterima'),
+(3, 'Ditolak');
 
 -- --------------------------------------------------------
 
@@ -201,7 +223,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `id_role`, `id_active`, `en_user`, `token`, `name`, `image`, `email`, `password`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, NULL, NULL, 'admin', 'default.svg', 'admin@gmail.com', '$2y$10$//KMATh3ibPoI3nHFp7x/u7vnAbo2WyUgmI4x0CVVrH8ajFhMvbjG', '2024-03-06 11:29:49', '2024-03-06 11:29:49');
+(1, 1, 1, NULL, NULL, 'admin', 'default.svg', 'admin@gmail.com', '$2y$10$//KMATh3ibPoI3nHFp7x/u7vnAbo2WyUgmI4x0CVVrH8ajFhMvbjG', '2024-03-06 11:29:49', '2024-03-06 11:29:49'),
+(2, 3, 1, '2y10ByPRuudUnfDjGaHgyXhtu6ayOXtx8dVUtC2Zpz1cN5o2SNmjr', '341182', 'Netmedia Framecode', 'default.svg', 'netmediaframecode@gmail.com', '$2y$10$IYm3np63BRi8RrJtCj8NneJyXZShU.LDJNPpA9o4Vzpz/.3G0N6rq', '2024-03-13 19:59:19', '2024-03-13 19:59:38');
 
 --
 -- Trigger `users`
@@ -238,7 +261,9 @@ INSERT INTO `user_access_menu` (`id_access_menu`, `id_role`, `id_menu`) VALUES
 (1, 1, 1),
 (2, 1, 2),
 (3, 1, 3),
-(4, 1, 4);
+(4, 1, 4),
+(5, 3, 3),
+(6, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -268,7 +293,13 @@ INSERT INTO `user_access_sub_menu` (`id_access_sub_menu`, `id_role`, `id_sub_men
 (9, 1, 9),
 (10, 1, 10),
 (11, 1, 11),
-(12, 1, 12);
+(12, 1, 12),
+(13, 3, 13),
+(14, 2, 7),
+(15, 2, 8),
+(16, 2, 9),
+(17, 2, 10),
+(18, 2, 13);
 
 -- --------------------------------------------------------
 
@@ -361,7 +392,8 @@ INSERT INTO `user_sub_menu` (`id_sub_menu`, `id_menu`, `id_active`, `title`, `ur
 (9, 3, 1, 'Barang Masuk', 'barang-masuk', 'fas fa-list-ul'),
 (10, 3, 1, 'Barang Keluar', 'barang-keluar', 'fas fa-list-ul'),
 (11, 4, 1, 'Tentang', 'tentang', 'fas fa-list-ul'),
-(12, 4, 1, 'Kontak', 'kontak', 'fas fa-list-ul');
+(12, 4, 1, 'Kontak', 'kontak', 'fas fa-list-ul'),
+(13, 3, 1, 'Pengajuan Barang', 'pengajuan-barang', 'fas fa-list');
 
 --
 -- Indexes for dumped tables
@@ -384,7 +416,8 @@ ALTER TABLE `barang_kategori`
 --
 ALTER TABLE `barang_keluar`
   ADD PRIMARY KEY (`id_barang_keluar`),
-  ADD KEY `id_barang_kib` (`id_barang_kib`);
+  ADD KEY `id_barang_kib` (`id_barang_kib`),
+  ADD KEY `id_status_bk` (`id_status_bk`);
 
 --
 -- Indeks untuk tabel `barang_kib`
@@ -406,6 +439,12 @@ ALTER TABLE `barang_masuk`
 --
 ALTER TABLE `kontak`
   ADD PRIMARY KEY (`id_kontak`);
+
+--
+-- Indeks untuk tabel `status_barang_keluar`
+--
+ALTER TABLE `status_barang_keluar`
+  ADD PRIMARY KEY (`id_status_bk`);
 
 --
 -- Indeks untuk tabel `tentang`
@@ -483,7 +522,7 @@ ALTER TABLE `barang_kategori`
 -- AUTO_INCREMENT untuk tabel `barang_keluar`
 --
 ALTER TABLE `barang_keluar`
-  MODIFY `id_barang_keluar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_barang_keluar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `barang_kib`
@@ -504,6 +543,12 @@ ALTER TABLE `kontak`
   MODIFY `id_kontak` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT untuk tabel `status_barang_keluar`
+--
+ALTER TABLE `status_barang_keluar`
+  MODIFY `id_status_bk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT untuk tabel `tentang`
 --
 ALTER TABLE `tentang`
@@ -513,19 +558,19 @@ ALTER TABLE `tentang`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_access_menu`
 --
 ALTER TABLE `user_access_menu`
-  MODIFY `id_access_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_access_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_access_sub_menu`
 --
 ALTER TABLE `user_access_sub_menu`
-  MODIFY `id_access_sub_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_access_sub_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_menu`
@@ -549,7 +594,7 @@ ALTER TABLE `user_status`
 -- AUTO_INCREMENT untuk tabel `user_sub_menu`
 --
 ALTER TABLE `user_sub_menu`
-  MODIFY `id_sub_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_sub_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
@@ -559,7 +604,8 @@ ALTER TABLE `user_sub_menu`
 -- Ketidakleluasaan untuk tabel `barang_keluar`
 --
 ALTER TABLE `barang_keluar`
-  ADD CONSTRAINT `barang_keluar_ibfk_1` FOREIGN KEY (`id_barang_kib`) REFERENCES `barang_kib` (`id_barang_kib`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `barang_keluar_ibfk_1` FOREIGN KEY (`id_barang_kib`) REFERENCES `barang_kib` (`id_barang_kib`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `barang_keluar_ibfk_2` FOREIGN KEY (`id_status_bk`) REFERENCES `status_barang_keluar` (`id_status_bk`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Ketidakleluasaan untuk tabel `barang_kib`

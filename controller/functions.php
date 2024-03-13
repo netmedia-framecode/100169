@@ -1047,6 +1047,10 @@ if (isset($_SESSION["project_si_inventaris_sekolah"]["users"])) {
       }
     }
 
+    if ($action == "update_status") {
+      $sql = "UPDATE barang_keluar SET id_status_bk='$data[id_status_bk]' WHERE id_barang_keluar='$data[id_barang_keluar]';";
+    }
+
     if ($action == "delete") {
       $check_id_kib = "SELECT * FROM barang_kib WHERE id_barang_kib='$data[id_barang_kib]'";
       $take_barang_kib = mysqli_query($conn, $check_id_kib);

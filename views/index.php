@@ -9,96 +9,99 @@ require_once("../templates/views_top.php"); ?>
     <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
   </div>
 
-  <div class="row">
+  <?php $barang_kib = "SELECT SUM(stok_barang) as total FROM barang_kib";
+  $dash_barang_kib = mysqli_query($conn, $barang_kib);
+  $data_barang_kib = mysqli_fetch_assoc($dash_barang_kib);
+  $barang_masuk = "SELECT SUM(jumlah) as total FROM barang_masuk";
+  $dash_barang_masuk = mysqli_query($conn, $barang_masuk);
+  $data_barang_masuk = mysqli_fetch_assoc($dash_barang_masuk);
+  $barang_keluar = "SELECT SUM(jumlah) as total FROM barang_keluar";
+  $dash_barang_keluar = mysqli_query($conn, $barang_keluar);
+  $data_barang_keluar = mysqli_fetch_assoc($dash_barang_keluar);
+  if ($id_role <= 2) { ?>
+    <div class="row">
 
-    <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-left-primary shadow h-100 py-2" onclick="window.location.href='barang-kib'" style="cursor: pointer;">
-        <div class="card-body">
-          <div class="row no-gutters align-items-center">
-            <div class="col mr-2">
-              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                Stok Barang</div>
-              <div class="h5 mb-0 font-weight-bold text-gray-800">
-                <?php $barang_kib = "SELECT SUM(stok_barang) as total FROM barang_kib";
-                $dash_barang_kib = mysqli_query($conn, $barang_kib);
-                $data_barang_kib = mysqli_fetch_assoc($dash_barang_kib);
-                echo number_format($data_barang_kib['total']); ?>
-              </div>
-            </div>
-            <div class="col-auto">
-              <i class="bi bi-box2-fill fa-2x"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-left-success shadow h-100 py-2" onclick="window.location.href='barang-masuk'" style="cursor: pointer;">
-        <div class="card-body">
-          <div class="row no-gutters align-items-center">
-            <div class="col mr-2">
-              <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                Barang Masuk</div>
-              <div class="h5 mb-0 font-weight-bold text-gray-800">
-                <?php $barang_masuk = "SELECT SUM(jumlah) as total FROM barang_masuk";
-                $dash_barang_masuk = mysqli_query($conn, $barang_masuk);
-                $data_barang_masuk = mysqli_fetch_assoc($dash_barang_masuk);
-                echo number_format($data_barang_masuk['total']) . " / " . number_format($data_barang_kib['total']); ?>
-              </div>
-            </div>
-            <div class="col-auto">
-              <i class="bi bi-box-seam-fill fa-2x"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-left-warning shadow h-100 py-2" onclick="window.location.href='barang-keluar'" style="cursor: pointer;">
-        <div class="card-body">
-          <div class="row no-gutters align-items-center">
-            <div class="col mr-2">
-              <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                Barang Keluar</div>
-              <div class="h5 mb-0 font-weight-bold text-gray-800">
-                <?php $barang_keluar = "SELECT SUM(jumlah) as total FROM barang_keluar";
-                $dash_barang_keluar = mysqli_query($conn, $barang_keluar);
-                $data_barang_keluar = mysqli_fetch_assoc($dash_barang_keluar);
-                echo number_format($data_barang_keluar['total']) . " / " . number_format($data_barang_kib['total']); ?>
-              </div>
-            </div>
-            <div class="col-auto">
-              <i class="bi bi-dropbox fa-2x"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-left-info shadow h-100 py-2" onclick="window.location.href='kontak'" style="cursor: pointer;">
-        <div class="card-body">
-          <div class="row no-gutters align-items-center">
-            <div class="col mr-2">
-              <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Kontak
-              </div>
-              <div class="row no-gutters align-items-center">
-                <div class="col-auto">
-                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?= mysqli_num_rows($views_kontak) ?></div>
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2" onclick="window.location.href='barang-kib'" style="cursor: pointer;">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                  Stok Barang</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                  <?= number_format($data_barang_kib['total']); ?>
                 </div>
               </div>
-            </div>
-            <div class="col-auto">
-              <i class="bi bi-chat-left-dots-fill fa-2x"></i>
+              <div class="col-auto">
+                <i class="bi bi-box2-fill fa-2x"></i>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-  </div>
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2" onclick="window.location.href='barang-masuk'" style="cursor: pointer;">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                  Barang Masuk</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                  <?= number_format($data_barang_masuk['total']) . " / " . number_format($data_barang_kib['total']); ?>
+                </div>
+              </div>
+              <div class="col-auto">
+                <i class="bi bi-box-seam-fill fa-2x"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2" onclick="window.location.href='barang-keluar'" style="cursor: pointer;">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                  Barang Keluar</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                  <?= number_format($data_barang_keluar['total']) . " / " . number_format($data_barang_kib['total']); ?>
+                </div>
+              </div>
+              <div class="col-auto">
+                <i class="bi bi-dropbox fa-2x"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2" onclick="window.location.href='kontak'" style="cursor: pointer;">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Kontak
+                </div>
+                <div class="row no-gutters align-items-center">
+                  <div class="col-auto">
+                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?= mysqli_num_rows($views_kontak) ?></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-auto">
+                <i class="bi bi-chat-left-dots-fill fa-2x"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  <?php } ?>
+
   <div class="row">
 
     <!-- Area Chart -->
