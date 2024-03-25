@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 13 Mar 2024 pada 20.37
+-- Waktu pembuatan: 25 Mar 2024 pada 06.21
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -87,8 +87,7 @@ CREATE TABLE `barang_keluar` (
 --
 
 INSERT INTO `barang_keluar` (`id_barang_keluar`, `id_barang_kib`, `id_status_bk`, `nama_barang_keluar`, `penerima`, `jumlah`, `keterangan`, `created_at`, `updated_at`) VALUES
-(6, 4, 2, 'Tanah Liat', 'arlan', '10', '', '2024-02-15 21:04:53', '2024-03-14 03:13:01'),
-(7, 4, 3, 'Tanah Liat', 'Netmedia Framecode', '1', '', '2024-03-14 03:06:18', '2024-03-14 03:13:19');
+(8, 6, 1, 'Mesin Bubut', 'Netmedia Framecode', '1', '', '2024-03-25 13:12:48', '2024-03-25 13:12:48');
 
 -- --------------------------------------------------------
 
@@ -100,13 +99,20 @@ CREATE TABLE `barang_kib` (
   `id_barang_kib` int(11) NOT NULL,
   `id_user` int(11) DEFAULT NULL,
   `id_barang_kategori` int(11) DEFAULT NULL,
+  `kode_barang` char(15) NOT NULL,
+  `register` char(10) NOT NULL,
   `nama_barang_kib` varchar(50) DEFAULT NULL,
+  `merek` varchar(50) NOT NULL,
+  `no_seri` varchar(50) NOT NULL,
+  `bahan` varchar(50) NOT NULL,
+  `asal_perolehan` varchar(50) NOT NULL,
+  `tahun_perolehan` year(4) NOT NULL,
+  `ukuran` char(10) NOT NULL,
+  `satuan` varchar(50) NOT NULL,
   `kondisi_barang` varchar(50) DEFAULT NULL,
-  `thn_anggaran` char(4) DEFAULT NULL,
-  `sumber_dana` varchar(50) DEFAULT NULL,
+  `stok_barang` int(11) NOT NULL,
   `harga` char(20) DEFAULT NULL,
-  `stok_barang` int(11) DEFAULT NULL,
-  `ruangan` varchar(30) DEFAULT NULL,
+  `ket` text NOT NULL,
   `created_at` datetime DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -115,8 +121,9 @@ CREATE TABLE `barang_kib` (
 -- Dumping data untuk tabel `barang_kib`
 --
 
-INSERT INTO `barang_kib` (`id_barang_kib`, `id_user`, `id_barang_kategori`, `nama_barang_kib`, `kondisi_barang`, `thn_anggaran`, `sumber_dana`, `harga`, `stok_barang`, `ruangan`, `created_at`, `updated_at`) VALUES
-(4, 1, 2, 'Tanah Liat', 'Fresh', '2024', 'APBD', '150000', 44, '1', '2024-03-10 21:04:29', '2024-03-14 03:06:18');
+INSERT INTO `barang_kib` (`id_barang_kib`, `id_user`, `id_barang_kategori`, `kode_barang`, `register`, `nama_barang_kib`, `merek`, `no_seri`, `bahan`, `asal_perolehan`, `tahun_perolehan`, `ukuran`, `satuan`, `kondisi_barang`, `stok_barang`, `harga`, `ket`, `created_at`, `updated_at`) VALUES
+(5, 1, 2, '01.01.11.04.02', '', 'Tanah', '', '4301353', '', 'Milik Pemerintah', '1979', '', '40.000', 'B', 1, '1539850000', '', '2024-03-25 13:05:51', '2024-03-25 13:05:51'),
+(6, 1, 3, '02.04.01.01.01', '0035', 'Mesin Bubut', '', '', 'Besi', '', '1995', '', 'Buah', '1.B/1.RB', 2, '1980800', '', '2024-03-25 13:06:37', '2024-03-25 13:12:48');
 
 -- --------------------------------------------------------
 
@@ -140,7 +147,7 @@ CREATE TABLE `barang_masuk` (
 --
 
 INSERT INTO `barang_masuk` (`id_barang_masuk`, `id_barang_kib`, `nama_barang_masuk`, `keterangan`, `jumlah`, `harga`, `created_at`, `updated_at`) VALUES
-(9, 4, 'Tanah Liat', '', '5', '150000', '2024-01-10 21:05:11', '2024-03-13 19:31:23');
+(10, 6, 'Mesin Bubut', '', '1', '1980800', '2024-03-25 13:09:37', '2024-03-25 13:09:37');
 
 -- --------------------------------------------------------
 
@@ -224,7 +231,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id_user`, `id_role`, `id_active`, `en_user`, `token`, `name`, `image`, `email`, `password`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, NULL, NULL, 'admin', 'default.svg', 'admin@gmail.com', '$2y$10$//KMATh3ibPoI3nHFp7x/u7vnAbo2WyUgmI4x0CVVrH8ajFhMvbjG', '2024-03-06 11:29:49', '2024-03-06 11:29:49'),
-(2, 3, 1, '2y10ByPRuudUnfDjGaHgyXhtu6ayOXtx8dVUtC2Zpz1cN5o2SNmjr', '341182', 'Netmedia Framecode', 'default.svg', 'netmediaframecode@gmail.com', '$2y$10$IYm3np63BRi8RrJtCj8NneJyXZShU.LDJNPpA9o4Vzpz/.3G0N6rq', '2024-03-13 19:59:19', '2024-03-13 19:59:38');
+(3, 3, 1, '2y10gQcqARS9DVe26Cxk2PsBFK2edaTWPmjsOzSfDanjGz518phyoG', '749098', 'Netmedia Framecode', 'default.svg', 'netmediaframecode@gmail.com', '$2y$10$6zTR4NffEpHtAD9ycuw8wuCqiko3UMcQkQtZQZkExNUws/3KaFrD6', '2024-03-25 13:12:01', '2024-03-25 13:12:23');
 
 --
 -- Trigger `users`
@@ -522,19 +529,19 @@ ALTER TABLE `barang_kategori`
 -- AUTO_INCREMENT untuk tabel `barang_keluar`
 --
 ALTER TABLE `barang_keluar`
-  MODIFY `id_barang_keluar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_barang_keluar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT untuk tabel `barang_kib`
 --
 ALTER TABLE `barang_kib`
-  MODIFY `id_barang_kib` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_barang_kib` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `barang_masuk`
 --
 ALTER TABLE `barang_masuk`
-  MODIFY `id_barang_masuk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_barang_masuk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT untuk tabel `kontak`
@@ -558,7 +565,7 @@ ALTER TABLE `tentang`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_access_menu`

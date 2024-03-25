@@ -954,11 +954,11 @@ if (isset($_SESSION["project_si_inventaris_sekolah"]["users"])) {
   function barang_kib($conn, $data, $action, $id_user)
   {
     if ($action == "insert") {
-      $sql = "INSERT INTO barang_kib(id_user,id_barang_kategori,nama_barang_kib,kondisi_barang,thn_anggaran,sumber_dana,harga,stok_barang,ruangan) VALUES('$id_user','$data[id_barang_kategori]','$data[nama_barang_kib]','$data[kondisi_barang]','$data[thn_anggaran]','$data[sumber_dana]','$data[harga]','$data[stok_barang]','$data[ruangan]')";
+      $sql = "INSERT INTO barang_kib(id_user,id_barang_kategori,kode_barang,register,nama_barang_kib,merek,no_seri,bahan,asal_perolehan,tahun_perolehan,ukuran,satuan,kondisi_barang,stok_barang,harga,ket) VALUES('$id_user','$data[id_barang_kategori]','$data[kode_barang]','$data[register]','$data[nama_barang_kib]','$data[merek]','$data[no_seri]','$data[bahan]','$data[asal_perolehan]','$data[tahun_perolehan]','$data[ukuran]','$data[satuan]','$data[kondisi_barang]','$data[stok_barang]','$data[harga]','$data[ket]')";
     }
 
     if ($action == "update") {
-      $sql = "UPDATE barang_kib SET id_barang_kategori='$data[id_barang_kategori]', nama_barang_kib='$data[nama_barang_kib]', kondisi_barang='$data[kondisi_barang]', thn_anggaran='$data[thn_anggaran]', sumber_dana='$data[sumber_dana]', harga='$data[harga]', stok_barang='$data[stok_barang]', ruangan='$data[ruangan]' WHERE id_barang_kib='$data[id_barang_kib]'";
+      $sql = "UPDATE barang_kib SET id_barang_kategori='$data[id_barang_kategori]', kode_barang='$data[kode_barang]', register='$data[register]', nama_barang_kib='$data[nama_barang_kib]', merek='$data[merek]', no_seri='$data[no_seri]', bahan='$data[bahan]', asal_perolehan='$data[asal_perolehan]', tahun_perolehan='$data[tahun_perolehan]', ukuran='$data[ukuran]', satuan='$data[satuan]', kondisi_barang='$data[kondisi_barang]', stok_barang='$data[stok_barang]', harga='$data[harga]', ket='$data[ket]' WHERE id_barang_kib='$data[id_barang_kib]'";
     }
 
     if ($action == "delete") {

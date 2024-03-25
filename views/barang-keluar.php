@@ -8,6 +8,7 @@ require_once("../templates/views_top.php"); ?>
   <!-- Page Heading -->
   <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800"><?= $_SESSION["project_si_inventaris_sekolah"]["name_page"] ?></h1>
+    <a href="export-barang-keluar" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" target="_blank"><i class="bi bi-download"></i> Export</a>
   </div>
 
   <div class="card shadow mb-4 border-0">
@@ -82,7 +83,7 @@ require_once("../templates/views_top.php"); ?>
                             <div class="form-group">
                               <label for="id_status_bk">Status Barang Keluar <small class="text-warning">*</small></label>
                               <select name="id_status_bk" class="form-control" id="id_status_bk" required>
-                                <option value="" selected>Pilih Barang</option>
+                                <option value="" selected>Pilih Status Barang</option>
                                 <?php $id_status_bk = $data['id_status_bk'];
                                 foreach ($views_status_bk as $data_bk) {
                                   $selected = ($data_bk['id_status_bk'] == $id_status_bk) ? 'selected' : ''; ?>

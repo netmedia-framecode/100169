@@ -473,7 +473,7 @@ if (isset($_SESSION["project_si_inventaris_sekolah"]["users"])) {
     }
   }
 
-  $barang_masuk = "SELECT barang_masuk.*, barang_kib.kondisi_barang, barang_kib.thn_anggaran, barang_kib.sumber_dana, barang_kategori.nama_kategori FROM barang_masuk JOIN barang_kib ON barang_masuk.id_barang_kib=barang_kib.id_barang_kib JOIN barang_kategori ON barang_kib.id_barang_kategori=barang_kategori.id_barang_kategori";
+  $barang_masuk = "SELECT barang_masuk.*, barang_kib.tahun_perolehan, barang_kategori.nama_kategori FROM barang_masuk JOIN barang_kib ON barang_masuk.id_barang_kib=barang_kib.id_barang_kib JOIN barang_kategori ON barang_kib.id_barang_kategori=barang_kategori.id_barang_kategori";
   $views_barang_masuk = mysqli_query($conn, $barang_masuk);
   if (isset($_POST["add_barang_masuk"])) {
     $validated_post = array_map(function ($value) use ($conn) {
@@ -512,7 +512,7 @@ if (isset($_SESSION["project_si_inventaris_sekolah"]["users"])) {
     }
   }
 
-  $barang_keluar = "SELECT barang_keluar.*, barang_kib.kondisi_barang, barang_kib.thn_anggaran, barang_kib.sumber_dana, barang_kategori.nama_kategori, status_barang_keluar.status_bk FROM barang_keluar JOIN barang_kib ON barang_keluar.id_barang_kib=barang_kib.id_barang_kib JOIN barang_kategori ON barang_kib.id_barang_kategori=barang_kategori.id_barang_kategori JOIN status_barang_keluar ON barang_keluar.id_status_bk=status_barang_keluar.id_status_bk";
+  $barang_keluar = "SELECT barang_keluar.*, barang_kategori.nama_kategori, status_barang_keluar.status_bk FROM barang_keluar JOIN barang_kib ON barang_keluar.id_barang_kib=barang_kib.id_barang_kib JOIN barang_kategori ON barang_kib.id_barang_kategori=barang_kategori.id_barang_kategori JOIN status_barang_keluar ON barang_keluar.id_status_bk=status_barang_keluar.id_status_bk";
   $views_barang_keluar = mysqli_query($conn, $barang_keluar);
   $status_barang_keluar = "SELECT * FROM status_barang_keluar WHERE id_status_bk!=1";
   $views_status_bk = mysqli_query($conn, $status_barang_keluar);
