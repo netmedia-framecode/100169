@@ -126,9 +126,9 @@ require_once("../templates/views_top.php"); ?>
                               <select class="form-control" id="id_barang_kib" disabled required>
                                 <option value="" selected>Pilih Barang</option>
                                 <?php $id_barang_kib = $data['id_barang_kib'];
-                                foreach ($views_barang_kib as $data_bk) {
+                                foreach ($views_select_barang_kib as $data_bk) {
                                   $selected = ($data_bk['id_barang_kib'] == $id_barang_kib) ? 'selected' : ''; ?>
-                                  <option value="<?= $data_bk['id_barang_kib'] ?>" <?= $selected ?>><?= $data_bk['nama_kategori'] . " - " . $data_bk['nama_barang_kib'] ?></option>
+                                  <option value="<?= $data_bk['id_barang_kib'] ?>" <?= $selected ?>><?= $data_bk['nama_kategori'] . " - " . $data_bk['nama_barang_kib'] . "(Tersedia: " . $data_bk['stok_barang'] . ")" ?></option>
                                 <?php } ?>
                               </select>
                             </div>
@@ -211,8 +211,8 @@ require_once("../templates/views_top.php"); ?>
               <label for="id_barang_kib">Barang KIB <small class="text-warning">*</small></label>
               <select name="id_barang_kib" class="form-control" id="id_barang_kib" required>
                 <option value="" selected>Pilih Barang</option>
-                <?php foreach ($views_barang_kib as $data_bk) { ?>
-                  <option value="<?= $data_bk['id_barang_kib'] ?>"><?= $data_bk['nama_kategori'] . " - " . $data_bk['nama_barang_kib'] ?></option>
+                <?php foreach ($views_select_barang_kib as $data_bk) { ?>
+                  <option value="<?= $data_bk['id_barang_kib'] ?>"><?= $data_bk['nama_kategori'] . " - " . $data_bk['nama_barang_kib'] . "(Tersedia: " . $data_bk['stok_barang'] . ")" ?></option>
                 <?php } ?>
               </select>
             </div>

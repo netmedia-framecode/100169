@@ -587,4 +587,7 @@ if (isset($_SESSION["project_si_inventaris_sekolah"]["users"])) {
       exit();
     }
   }
+
+  $select_barang_kib = "SELECT barang_kib.*, users.name, barang_kategori.nama_kategori FROM barang_kib JOIN users ON barang_kib.id_user=users.id_user JOIN barang_kategori ON barang_kib.id_barang_kategori=barang_kategori.id_barang_kategori WHERE barang_kib.stok_barang!='0'";
+  $views_select_barang_kib = mysqli_query($conn, $select_barang_kib);
 }
