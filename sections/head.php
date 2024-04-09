@@ -20,7 +20,7 @@
 <link href="<?= $baseURL ?>assets/css/font-awesome.min.css" rel="stylesheet" />
 
 <!-- Custom styles for this template -->
-<link href="<?= $baseURL ?>assets/css/styles.css" rel="stylesheet" />
+<link href="<?= $baseURL ?>assets/css/stylex.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 
 <!-- responsive style -->

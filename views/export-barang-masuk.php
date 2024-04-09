@@ -16,7 +16,8 @@ $mpdf->WriteHTML('<div style="border-bottom: 3px solid black;width: 100%;">
         </th>
         <td style="text-align: center;">
           <h3>PEMERINTAH PROVINSI NUSA TENGGARA TIMUR<br>DINAS PENDIDIKAN DAN KEBUDAYAAN<br>SMK NEGERI 4 KOTA KUPANG</h3>
-          <p style="font-size: 14px;">Jl. Yos Soedarso, Kelurahan Aplasi-Kefamenanu | Telp. 0388[31448]- email: smkkatolikkefa@gmail.com</p>
+          <p style="font-size: 14px;">Jl. Bajawa - Oepoi Kuapng | Telp. (0380) 821586</p>
+          <p style="font-size: 14px;">Website: www.smkn4kpg.sch.id - Email: smkn4kpg@yahoo.com</p>
         </td>
         <th style="text-align: center;">
           <img src="../assets/img/logo-smkn4.png" alt="" style="width: 100px;height: 100px;">

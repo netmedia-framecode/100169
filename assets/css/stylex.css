@@ -346,7 +346,7 @@ a:focus {
   animation: upDown 5s infinite;
 }
 
-@-webkit-keyframes upDown {
+/* @-webkit-keyframes upDown {
   0% {
     -webkit-transform: translateY(-45px);
     transform: translateY(-45px);
@@ -374,7 +374,7 @@ a:focus {
     -webkit-transform: translateY(-45px);
     transform: translateY(-45px);
   }
-}
+} */
 
 .slider_section .carousel-indicators {
   position: unset;

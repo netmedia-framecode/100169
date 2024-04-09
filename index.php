@@ -10,7 +10,8 @@
               <div class="detail-box">
                 <h1 style="font-size: 35px;">
                   SISTEM INFORMASI <br>
-                  INVENTARIS BARANG SEKOLAH
+                  INVENTARIS BARANG SEKOLAH <br>
+                  SMK Negeri 4 Kupang
                 </h1>
                 <p>
                   Dapat membantu dan mempermudah kinerja petugas dalam mengelolah inventaris barang yang ada di SMK Negeri 4 Kupang, sehingga data yang ada dapat di proses lebih akurat, efektif, efisien dan mempermudah dalam proses pembuatan laporan rekonsilasi.
@@ -24,7 +25,7 @@
             </div>
             <div class="col-md-6">
               <div class="img-box">
-                <img src="assets/img/slider-img.png" alt="">
+                <img src="assets/img/slider-img.jpg" alt="">
               </div>
             </div>
           </div>
