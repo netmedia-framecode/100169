@@ -20,6 +20,7 @@ require_once("../templates/views_top.php"); ?>
               <th class="text-center">Kategori KIB</th>
               <th class="text-center">Barang</th>
               <th class="text-center">Penerima</th>
+              <th class="text-center">Pengaju</th>
               <th class="text-center">Jumlah</th>
               <th class="text-center">Keterangan</th>
               <th class="text-center">Tgl buat</th>
@@ -33,6 +34,7 @@ require_once("../templates/views_top.php"); ?>
               <th class="text-center">Kategori KIB</th>
               <th class="text-center">Barang</th>
               <th class="text-center">Penerima</th>
+              <th class="text-center">Pengaju</th>
               <th class="text-center">Jumlah</th>
               <th class="text-center">Keterangan</th>
               <th class="text-center">Tgl buat</th>
@@ -47,6 +49,7 @@ require_once("../templates/views_top.php"); ?>
                 <td><?= $data['nama_kategori'] ?></td>
                 <td><?= $data['nama_barang_keluar'] ?></td>
                 <td><?= $data['penerima'] ?></td>
+                <td><?= $data['pengaju'] ?></td>
                 <td><?= $data['jumlah'] ?></td>
                 <td><?= $data['keterangan'] ?></td>
                 <td><?php $created_at = date_create($data["created_at"]);

@@ -955,17 +955,66 @@ if (isset($_SESSION["project_si_inventaris_sekolah"]["users"])) {
   {
     if ($action == "insert") {
       $sql = "INSERT INTO barang_kib(id_user,id_barang_kategori,kode_barang,register,nama_barang_kib,merek,no_seri,bahan,asal_perolehan,tahun_perolehan,ukuran,satuan,kondisi_barang,stok_barang,harga,ket) VALUES('$id_user','$data[id_barang_kategori]','$data[kode_barang]','$data[register]','$data[nama_barang_kib]','$data[merek]','$data[no_seri]','$data[bahan]','$data[asal_perolehan]','$data[tahun_perolehan]','$data[ukuran]','$data[satuan]','$data[kondisi_barang]','$data[stok_barang]','$data[harga]','$data[ket]')";
+      mysqli_query($conn, $sql);
+    }
+
+    if ($action == "import") {
+      require '../assets/PHPExcel/Classes/PHPExcel.php';
+      require '../assets/PHPExcel/Classes/PHPExcel/Calculation.php';
+      require '../assets/PHPExcel/Classes/PHPExcel/Cell.php';
+
+      // Ambil file yang diupload
+      $nama_file = $_FILES['file_kib']['name'];
+      $tmp_file = $_FILES['file_kib']['tmp_name'];
+
+      // Cek apakah file yang diupload adalah file Excel
+      $ext = pathinfo($nama_file, PATHINFO_EXTENSION);
+      if ($ext != 'xls' && $ext != 'xlsx') {
+        $message = "Hanya file Excel yang diperbolehkan!";
+        $message_type = "danger";
+        alert($message, $message_type);
+        return false;
+      }
+
+      // Load file Excel menggunakan PHPExcel
+      $objPHPExcel = PHPExcel_IOFactory::load($tmp_file);
+
+      // Ambil data dari file Excel
+      $sheet = $objPHPExcel->getSheet(0);
+      $highestRow = $sheet->getHighestRow();
+      $highestColumn = $sheet->getHighestColumn();
+
+      // Loop untuk membaca data
+      for ($row = 1; $row <= $highestRow; $row++) {
+        $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, NULL, TRUE, FALSE);
+        // Simpan data ke database
+        $barang_kategori = $rowData[0][2];
+        $check_kategori = "SELECT * FROM barang_kategori WHERE nama_kategori LIKE '%$barang_kategori%' LIMIT 1";
+        $views_kategori = mysqli_query($conn, $check_kategori);
+        if (mysqli_num_rows($views_kategori) > 0) {
+          $data_kategori = mysqli_fetch_assoc($views_kategori);
+          $id_barang_kategori = $data_kategori['id_barang_kategori'];
+        } else {
+          $id_barang_kategori = 7;
+        }
+        $sql = "INSERT INTO barang_kib (id_user,id_barang_kategori,kode_barang,register,nama_barang_kib,merek,no_seri,bahan,asal_perolehan,tahun_perolehan,ukuran,satuan,kondisi_barang,stok_barang,harga,ket) VALUES ('$id_user', '$id_barang_kategori', '" . $rowData[0][0] . "', '" . $rowData[0][1] . "', '" . $rowData[0][2] . "', '" . $rowData[0][3] . "', '" . $rowData[0][4] . "', '" . $rowData[0][5] . "', '" . $rowData[0][6] . "', '" . $rowData[0][7] . "', '" . $rowData[0][8] . "', '" . $rowData[0][9] . "', '" . $rowData[0][10] . "', '" . $rowData[0][11] . "', '" . $rowData[0][12] . "', '" . $rowData[0][13] . "')";
+        mysqli_query($conn, $sql);
+      }
+
+      // Tutup koneksi
+      $conn->close();
     }
 
     if ($action == "update") {
       $sql = "UPDATE barang_kib SET id_barang_kategori='$data[id_barang_kategori]', kode_barang='$data[kode_barang]', register='$data[register]', nama_barang_kib='$data[nama_barang_kib]', merek='$data[merek]', no_seri='$data[no_seri]', bahan='$data[bahan]', asal_perolehan='$data[asal_perolehan]', tahun_perolehan='$data[tahun_perolehan]', ukuran='$data[ukuran]', satuan='$data[satuan]', kondisi_barang='$data[kondisi_barang]', stok_barang='$data[stok_barang]', harga='$data[harga]', ket='$data[ket]' WHERE id_barang_kib='$data[id_barang_kib]'";
+      mysqli_query($conn, $sql);
     }
 
     if ($action == "delete") {
       $sql = "DELETE FROM barang_kib WHERE id_barang_kib='$data[id_barang_kib]'";
+      mysqli_query($conn, $sql);
     }
 
-    mysqli_query($conn, $sql);
     return mysqli_affected_rows($conn);
   }
 
@@ -1028,7 +1077,7 @@ if (isset($_SESSION["project_si_inventaris_sekolah"]["users"])) {
       } else {
         $stok_barang = $check_stok;
       }
-      $sql = "INSERT INTO barang_keluar(id_barang_kib,nama_barang_keluar,penerima,jumlah,keterangan) VALUES('$data[id_barang_kib]','$nama_barang_kib','$data[penerima]','$data[jumlah]','$keterangan');";
+      $sql = "INSERT INTO barang_keluar(id_barang_kib,nama_barang_keluar,penerima,pengaju,jumlah,keterangan) VALUES('$data[id_barang_kib]','$nama_barang_kib','$data[penerima]','$data[pengaju]','$data[jumlah]','$keterangan');";
       $sql .= "UPDATE barang_kib SET stok_barang='$stok_barang' WHERE id_barang_kib='$data[id_barang_kib]';";
     }
 

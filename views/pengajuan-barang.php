@@ -20,6 +20,7 @@ require_once("../templates/views_top.php"); ?>
               <th class="text-center">Kategori KIB</th>
               <th class="text-center">Barang</th>
               <th class="text-center">Penerima</th>
+              <th class="text-center">Pengaju</th>
               <th class="text-center">Jumlah</th>
               <th class="text-center">Keterangan</th>
               <th class="text-center">Tgl buat</th>
@@ -33,6 +34,7 @@ require_once("../templates/views_top.php"); ?>
               <th class="text-center">Kategori KIB</th>
               <th class="text-center">Barang</th>
               <th class="text-center">Penerima</th>
+              <th class="text-center">Pengaju</th>
               <th class="text-center">Jumlah</th>
               <th class="text-center">Keterangan</th>
               <th class="text-center">Tgl buat</th>
@@ -47,6 +49,7 @@ require_once("../templates/views_top.php"); ?>
                 <td><?= $data['nama_kategori'] ?></td>
                 <td><?= $data['nama_barang_keluar'] ?></td>
                 <td><?= $data['penerima'] ?></td>
+                <td><?= $data['pengaju'] ?></td>
                 <td><?= $data['jumlah'] ?></td>
                 <td><?= $data['keterangan'] ?></td>
                 <td><?php $created_at = date_create($data["created_at"]);
@@ -141,6 +144,10 @@ require_once("../templates/views_top.php"); ?>
                               <input type="text" value="<?= $data['penerima'] ?>" class="form-control" id="penerima" readonly required>
                             </div>
                             <div class="form-group">
+                              <label for="pengaju">Pengaju <small class="text-warning">*</small></label>
+                              <input type="text" name="pengaju" value="<?= $data['pengaju'] ?>" class="form-control" id="pengaju" required>
+                            </div>
+                            <div class="form-group">
                               <label for="jumlah">Jumlah <small class="text-warning">*</small></label>
                               <input type="number" name="jumlah" value="<?= $data['jumlah'] ?>" class="form-control" id="jumlah" required>
                             </div>
@@ -219,6 +226,10 @@ require_once("../templates/views_top.php"); ?>
             <div class="form-group">
               <label for="penerima">Penerima <small class="text-warning">*</small></label>
               <input type="text" name="penerima" value="<?= $name ?>" class="form-control" id="penerima" readonly required>
+            </div>
+            <div class="form-group">
+              <label for="pengaju">Pengaju <small class="text-warning">*</small></label>
+              <input type="text" name="pengaju" class="form-control" id="pengaju" required>
             </div>
             <div class="form-group">
               <label for="jumlah">Jumlah <small class="text-warning">*</small></label>

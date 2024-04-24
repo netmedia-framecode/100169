@@ -10,6 +10,32 @@ require_once("../templates/views_top.php"); ?>
     <h1 class="h3 mb-0 text-gray-800"><?= $_SESSION["project_si_inventaris_sekolah"]["name_page"] ?></h1>
     <div class="col text-right">
       <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#tambah"><i class="bi bi-plus-lg"></i> Tambah</a>
+      <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" data-toggle="modal" data-target="#import"><i class="bi bi-file-earmark-arrow-down"></i> Import</a>
+      <div class="modal fade" id="import" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header border-bottom-0 shadow">
+              <h5 class="modal-title" id="exampleModalLabel">Import Barang KIB</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="" method="post" enctype="multipart/form-data">
+              <div class="modal-body text-left">
+                <div class="mb-3">
+                  <label for="file_kib" class="form-label">File KIB</label>
+                  <input name="file_kib" class="form-control" type="file" id="file_kib" accept=".xls, .xlsx">
+                  <small class="text-danger">Hanya file excel yang diperbolehkan!</small>
+                </div>
+              </div>
+              <div class="modal-footer justify-content-center border-top-0">
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
+                <button type="submit" name="import_barang_kib" class="btn btn-success btn-sm">Import</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
       <a href="export-barang-kib" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" target="_blank"><i class="bi bi-download"></i> Export</a>
     </div>
   </div>

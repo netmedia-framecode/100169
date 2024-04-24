@@ -9,6 +9,7 @@ require_once("functions.php");
 $messageTypes = ["success", "info", "warning", "danger", "dark"];
 
 $baseURL = "http://$_SERVER[HTTP_HOST]/apps/tugas/si_inventaris_sekolah/";
+// $baseURL = "http://$_SERVER[HTTP_HOST]/100169-main/";
 $name_website = "SI Inventaris Sekolah";
 
 $select_auth = "SELECT * FROM auth";
@@ -448,6 +449,18 @@ if (isset($_SESSION["project_si_inventaris_sekolah"]["users"])) {
       exit();
     }
   }
+  if (isset($_POST["import_barang_kib"])) {
+    $validated_post = array_map(function ($value) use ($conn) {
+      return valid($conn, $value);
+    }, $_POST);
+    if (barang_kib($conn, $validated_post, $action = 'import', $id_user) > 0) {
+      $message = "Barang KIB berhasil diimport.";
+      $message_type = "success";
+      alert($message, $message_type);
+      header("Location: barang-kib");
+      exit();
+    }
+  }
   if (isset($_POST["edit_barang_kib"])) {
     $validated_post = array_map(function ($value) use ($conn) {
       return valid($conn, $value);
@@ -524,7 +537,7 @@ if (isset($_SESSION["project_si_inventaris_sekolah"]["users"])) {
       $message = "Barang keluar berhasil ditambahkan.";
       $message_type = "success";
       alert($message, $message_type);
-      header("Location: barang-keluar");
+      header("Location: pengajuan-barang");
       exit();
     }
   }

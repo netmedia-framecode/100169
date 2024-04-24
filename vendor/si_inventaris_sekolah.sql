@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 25 Mar 2024 pada 06.21
+-- Waktu pembuatan: 24 Apr 2024 pada 04.15
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -62,7 +62,8 @@ INSERT INTO `barang_kategori` (`id_barang_kategori`, `nama_kategori`, `created_a
 (3, 'Peralatan dan Mesin', '2024-03-07 17:17:48', '2024-03-07 17:17:48'),
 (4, 'Gedung dan Bangunan', '2024-03-07 17:18:01', '2024-03-07 17:18:01'),
 (5, 'Jalan Irigrasi dan Jaringan', '2024-03-07 17:18:25', '2024-03-07 17:18:25'),
-(6, 'Aset Tetap Lainnya', '2024-03-07 17:18:42', '2024-03-07 17:18:42');
+(6, 'Aset Tetap Lainnya', '2024-03-07 17:18:42', '2024-03-07 17:18:42'),
+(7, 'undefined', '2024-04-24 09:49:03', '2024-04-24 09:49:03');
 
 -- --------------------------------------------------------
 
@@ -76,6 +77,7 @@ CREATE TABLE `barang_keluar` (
   `id_status_bk` int(11) NOT NULL DEFAULT 1,
   `nama_barang_keluar` varchar(50) DEFAULT NULL,
   `penerima` varchar(50) DEFAULT NULL,
+  `pengaju` varchar(50) NOT NULL,
   `jumlah` char(20) DEFAULT NULL,
   `keterangan` text DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp(),
@@ -86,8 +88,9 @@ CREATE TABLE `barang_keluar` (
 -- Dumping data untuk tabel `barang_keluar`
 --
 
-INSERT INTO `barang_keluar` (`id_barang_keluar`, `id_barang_kib`, `id_status_bk`, `nama_barang_keluar`, `penerima`, `jumlah`, `keterangan`, `created_at`, `updated_at`) VALUES
-(8, 6, 1, 'Mesin Bubut', 'Netmedia Framecode', '1', '', '2024-03-25 13:12:48', '2024-03-25 13:12:48');
+INSERT INTO `barang_keluar` (`id_barang_keluar`, `id_barang_kib`, `id_status_bk`, `nama_barang_keluar`, `penerima`, `pengaju`, `jumlah`, `keterangan`, `created_at`, `updated_at`) VALUES
+(8, 6, 1, 'Mesin Bubut', 'Netmedia Framecode', '', '1', '', '2024-03-25 13:12:48', '2024-03-25 13:12:48'),
+(9, 6, 1, 'Mesin Bubut', 'Netmedia Framecode', 'arlan', '1', '', '2024-04-23 00:57:56', '2024-04-23 00:57:56');
 
 -- --------------------------------------------------------
 
@@ -123,7 +126,7 @@ CREATE TABLE `barang_kib` (
 
 INSERT INTO `barang_kib` (`id_barang_kib`, `id_user`, `id_barang_kategori`, `kode_barang`, `register`, `nama_barang_kib`, `merek`, `no_seri`, `bahan`, `asal_perolehan`, `tahun_perolehan`, `ukuran`, `satuan`, `kondisi_barang`, `stok_barang`, `harga`, `ket`, `created_at`, `updated_at`) VALUES
 (5, 1, 2, '01.01.11.04.02', '', 'Tanah', '', '4301353', '', 'Milik Pemerintah', '1979', '', '40.000', 'B', 1, '1539850000', '', '2024-03-25 13:05:51', '2024-03-25 13:05:51'),
-(6, 1, 3, '02.04.01.01.01', '0035', 'Mesin Bubut', '', '', 'Besi', '', '1995', '', 'Buah', '1.B/1.RB', 2, '1980800', '', '2024-03-25 13:06:37', '2024-03-25 13:12:48');
+(6, 1, 3, '02.04.01.01.01', '0035', 'Mesin Bubut', '', '', 'Besi', '', '1995', '', 'Buah', '1.B/1.RB', 1, '1980800', '', '2024-03-25 13:06:37', '2024-04-23 00:57:57');
 
 -- --------------------------------------------------------
 
@@ -523,13 +526,13 @@ ALTER TABLE `auth`
 -- AUTO_INCREMENT untuk tabel `barang_kategori`
 --
 ALTER TABLE `barang_kategori`
-  MODIFY `id_barang_kategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_barang_kategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `barang_keluar`
 --
 ALTER TABLE `barang_keluar`
-  MODIFY `id_barang_keluar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_barang_keluar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `barang_kib`
