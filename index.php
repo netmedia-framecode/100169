@@ -1,12 +1,12 @@
 <?php require_once("templates/top.php"); ?>
 
-<section class="slider_section ">
+<section class="slider_section" style="width: 100%;background-image: url(assets/img/header.jpg);background-size: cover;background-position: center;display: flex;justify-content: center;align-items: center;">
   <div id="customCarousel1" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <div class="container ">
+        <div class="container">
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-8">
               <div class="detail-box">
                 <h1 style="font-size: 35px;">
                   <marquee behavior="scroll" direction="left" scrollamount="5">SISTEM INFORMASI INVENTARIS BARANG SEKOLAH SMK Negeri 4 Kupang</marquee>
@@ -21,11 +21,6 @@
                     Baca lebih
                   </a>
                 </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="img-box">
-                <img src="assets/img/3677221631.jpg" alt="">
               </div>
             </div>
           </div>
