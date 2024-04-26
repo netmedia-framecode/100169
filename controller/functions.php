@@ -1000,9 +1000,6 @@ if (isset($_SESSION["project_si_inventaris_sekolah"]["users"])) {
         $sql = "INSERT INTO barang_kib (id_user,id_barang_kategori,kode_barang,register,nama_barang_kib,merek,no_seri,bahan,asal_perolehan,tahun_perolehan,ukuran,satuan,kondisi_barang,stok_barang,harga,ket) VALUES ('$id_user', '$id_barang_kategori', '" . $rowData[0][0] . "', '" . $rowData[0][1] . "', '" . $rowData[0][2] . "', '" . $rowData[0][3] . "', '" . $rowData[0][4] . "', '" . $rowData[0][5] . "', '" . $rowData[0][6] . "', '" . $rowData[0][7] . "', '" . $rowData[0][8] . "', '" . $rowData[0][9] . "', '" . $rowData[0][10] . "', '" . $rowData[0][11] . "', '" . $rowData[0][12] . "', '" . $rowData[0][13] . "')";
         mysqli_query($conn, $sql);
       }
-
-      // Tutup koneksi
-      $conn->close();
     }
 
     if ($action == "update") {
