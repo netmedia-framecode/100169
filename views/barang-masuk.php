@@ -10,7 +10,37 @@ require_once("../templates/views_top.php"); ?>
     <h1 class="h3 mb-0 text-gray-800"><?= $_SESSION["project_si_inventaris_sekolah"]["name_page"] ?></h1>
     <div class="col text-right">
       <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#tambah"><i class="bi bi-plus-lg"></i> Tambah</a>
-      <a href="export-barang-masuk" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" target="_blank"><i class="bi bi-download"></i> Export</a>
+      <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" data-toggle="modal" data-target="#export"><i class="bi bi-download"></i> Export</a>
+      <div class="modal fade" id="export" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header border-bottom-0 shadow">
+              <h5 class="modal-title" id="exampleModalLabel">Export Barang Masuk</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="" method="post" enctype="multipart/form-data">
+              <div class="modal-body text-left">
+                <div class="mb-3">
+                  <label for="id_barang_kategori" class="form-label">Kategori</label>
+                  <select name="id_barang_kategori" class="form-control" id="id_barang_kategori" required>
+                    <option value="" selected>Pilih Kategori</option>
+                    <?php foreach ($views_barang_kategori as $data_kategori_barang) { ?>
+                      <option value="<?= $data_kategori_barang['id_barang_kategori'] ?>"><?= $data_kategori_barang['nama_kategori'] ?></option>
+                    <?php } ?>
+                  </select>
+                </div>
+              </div>
+              <div class="modal-footer justify-content-center border-top-0">
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
+                <button type="submit" name="export_barang_masuk" class="btn btn-success btn-sm">Export</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- <a href="export-barang-masuk" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" target="_blank"><i class="bi bi-download"></i> Export</a> -->
     </div>
   </div>
 

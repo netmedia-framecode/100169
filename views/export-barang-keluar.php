@@ -4,10 +4,15 @@ require_once __DIR__ . '/../assets/vendor/autoload.php';
 
 $mpdf = new \Mpdf\Mpdf();
 
-$barang_keluar = "SELECT barang_keluar.*, barang_kategori.nama_kategori, status_barang_keluar.status_bk FROM barang_keluar JOIN barang_kib ON barang_keluar.id_barang_kib=barang_kib.id_barang_kib JOIN barang_kategori ON barang_kib.id_barang_kategori=barang_kategori.id_barang_kategori JOIN status_barang_keluar ON barang_keluar.id_status_bk=status_barang_keluar.id_status_bk";
-$export_barang_keluar = mysqli_query($conn, $barang_keluar);
+if (!isset($_SESSION["project_si_inventaris_sekolah"]["export"])) {
+  header("Location: barang-keluar");
+  exit();
+} else {
+  $id_barang_kategori = valid($conn, $_SESSION["project_si_inventaris_sekolah"]["export"]['id_barang_kategori']);
+  $barang_keluar = "SELECT barang_keluar.*, barang_kategori.nama_kategori, status_barang_keluar.status_bk FROM barang_keluar JOIN barang_kib ON barang_keluar.id_barang_kib=barang_kib.id_barang_kib JOIN barang_kategori ON barang_kib.id_barang_kategori=barang_kategori.id_barang_kategori JOIN status_barang_keluar ON barang_keluar.id_status_bk=status_barang_keluar.id_status_bk WHERE barang_kib.id_barang_kategori=$id_barang_kategori";
+  $export_barang_keluar = mysqli_query($conn, $barang_keluar);
 
-$mpdf->WriteHTML('<div style="border-bottom: 3px solid black;width: 100%;">
+  $mpdf->WriteHTML('<div style="border-bottom: 3px solid black;width: 100%;">
   <table border="0" style="width: 100%;">
     <tbody>
       <tr>
@@ -27,11 +32,11 @@ $mpdf->WriteHTML('<div style="border-bottom: 3px solid black;width: 100%;">
   </table>
 </div>');
 
-$mpdf->WriteHTML('
+  $mpdf->WriteHTML('
   <h4 style="text-align: center; text-decoration: underline;">Data Barang Keluar</h4>
 ');
 
-$mpdf->WriteHTML('<table style="border-collapse: collapse; width: 100%; margin: auto;">
+  $mpdf->WriteHTML('<table style="border-collapse: collapse; width: 100%; margin: auto;">
   <thead>
     <tr style="border: 1px solid #000;">
       <th style="border: 1px solid #000;">No</th>
@@ -45,17 +50,17 @@ $mpdf->WriteHTML('<table style="border-collapse: collapse; width: 100%; margin: 
   </thead>
   <tbody id="search-page">');
 
-if (mysqli_num_rows($export_barang_keluar) == 0) {
-  $mpdf->WriteHTML('<tr style="border: 1px solid #000;">
+  if (mysqli_num_rows($export_barang_keluar) == 0) {
+    $mpdf->WriteHTML('<tr style="border: 1px solid #000;">
         <th colspan="7" style="border: 1px solid #000;">Belum ada data.</th>
       </tr>');
-}
+  }
 
-$no = 1;
+  $no = 1;
 
-if (mysqli_num_rows($export_barang_keluar) > 0) {
-  while ($data = mysqli_fetch_assoc($export_barang_keluar)) {
-    $mpdf->WriteHTML('
+  if (mysqli_num_rows($export_barang_keluar) > 0) {
+    while ($data = mysqli_fetch_assoc($export_barang_keluar)) {
+      $mpdf->WriteHTML('
       <tr style="border: 1px solid #000;">
         <th style="border: 1px solid #000;">' . $no . '</th>
         <td style="border: 1px solid #000;">' . $data['nama_kategori'] . '</td>
@@ -65,14 +70,14 @@ if (mysqli_num_rows($export_barang_keluar) > 0) {
         <td style="border: 1px solid #000;">' . $data['keterangan'] . '</td>
         <td style="border: 1px solid #000;">' . $data['status_bk'] . '</td>
       </tr>');
-    $no++;
+      $no++;
+    }
   }
-}
 
-$mpdf->WriteHTML('</tbody>
+  $mpdf->WriteHTML('</tbody>
   </table>');
 
-$mpdf->WriteHTML('
+  $mpdf->WriteHTML('
   <div style="width: 300px; margin-top: 20px; float: right; text-align: right;">
     <p style="text-align: center;">Kupang, ' . date("d M Y") . '</p>
     <p style="text-align: center; padding-top: -15px;">An. Kepala Sekolah</p>
@@ -80,7 +85,8 @@ $mpdf->WriteHTML('
   </div>
 ');
 
-$mpdf->Output();
-// $mpdf->OutputHttpDownload('Data_Barang_Keluar.pdf');
-// header("Location: barang-keluar");
-// exit;
+  $mpdf->Output();
+  // $mpdf->OutputHttpDownload('Data_Barang_Keluar.pdf');
+  // header("Location: barang-keluar");
+  // exit;
+}
